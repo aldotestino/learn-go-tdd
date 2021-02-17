@@ -1,9 +1,12 @@
 package main
 
 // `Array` has a fixed size
-//	array := [2]int{1,2}
+// var array = [2]int
+// array := [2]int{1,2}
+
 // `Slice` hasn't a fixed size
 // var slice []int
+// slice := []int{1,2,3}
 
 // Sum returns the sum of all the numbers in `Slice`
 func Sum(numbers []int) int {

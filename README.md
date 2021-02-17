@@ -14,5 +14,9 @@
   ```
 - Run tests with
   ```sh
-  go test
+  go test -v
+  ```
+- Run benchmarks with
+  ```sh
+  go test -bench=.
   ```

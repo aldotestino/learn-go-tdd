@@ -15,7 +15,7 @@ func TestPerimeter(t *testing.T) {
 // Table driven test
 func TestArea(t *testing.T) {
 
-	// creating a Slice of anonymous struc with two fields (shape and want)
+	// creating a Slice of anonymous struct
 	areaTests := []struct {
 		name    string
 		shape   Shape

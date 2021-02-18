@@ -24,7 +24,7 @@ func Sum(numbers []int) int {
 func SumAll(numbersToSum ...[]int) []int {
 
 	/*lenghtOfNumbers := len(numbersToSum)
-	// `meke` initialize a Slice with a given length
+	// `make` initialize an Array with a given length
 	sums := make([]int, lenghtOfNumbers)
 	for i, numbers := range numbersToSum {
 		sums[i] = Sum(numbers)

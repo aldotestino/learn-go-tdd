@@ -2,8 +2,10 @@ package main
 
 // To initialize an empty map:
 // var m map[string]string ❌
-// var m map[string]string{} ✅
-// var m make(map[string]string) ✅
+// var m = map[string]string{} ✅
+// var m = make(map[string]string) ✅
+// m := map[string]string{} ✅
+// m := make(map[string]string) ✅
 
 // DictionaryErr custom error type
 type DictionaryErr string

@@ -1,12 +1,14 @@
 package svg
 
 import (
-	"clockface"
+	cf "16/clockface"
 	"fmt"
 	"io"
-	"time")
+	"time"
+)
+
 const (
-secondHandLength = 90
+	secondHandLength = 90
 	minuteHandLength = 80
 	hourHandLength   = 50
 	clockCentreX     = 150
@@ -36,22 +38,22 @@ func Write(w io.Writer, t time.Time) {
 }
 
 func hourHand(w io.Writer, t time.Time) {
-	p := makeHand(clockface.HourHandPoint(t), hourHandLength)
+	p := makeHand(cf.HourHandPoint(t), hourHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:3px;"/>`, p.X, p.Y)
 }
 
 func minuteHand(w io.Writer, t time.Time) {
-	p := makeHand(clockface.MinuteHandPoint(t), minuteHandLength)
+	p := makeHand(cf.MinuteHandPoint(t), minuteHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:3px;"/>`, p.X, p.Y)
 }
 
 func secondHand(w io.Writer, t time.Time) {
-	p := makeHand(clockface.SecondHandPoint(t), secondHandLength)
+	p := makeHand(cf.SecondHandPoint(t), secondHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
 }
 
-func makeHand(p clockface.Point, lenght float64) clockface.Point {
-	p = clockface.Point{p.X * lenght, p.Y * lenght}
-	p = clockface.Point{p.X, -p.Y}
-	return clockface.Point{p.X + clockCentreX, p.Y + clockCentreY}
+func makeHand(p cf.Point, lenght float64) cf.Point {
+	p = cf.Point{p.X * lenght, p.Y * lenght}
+	p = cf.Point{p.X, -p.Y}
+	return cf.Point{p.X + clockCentreX, p.Y + clockCentreY}
 }

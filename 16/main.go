@@ -1,7 +1,7 @@
 package main
 
 import (
-	"clockface/svg"
+	svg "16/svg"
 	"os"
 	"time"
 )

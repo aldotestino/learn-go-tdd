@@ -1,4 +1,4 @@
-package main
+package poker
 
 import "sync"
 
@@ -21,7 +21,7 @@ func (i *InMemoryPlayerStore) RecordWin(name string) {
 	i.mu.Unlock()
 }
 
-func (i *InMemoryPlayerStore) GetLeague() []Player {
+func (i *InMemoryPlayerStore) GetLeague() League {
 	var league []Player
 	for name, wins := range i.store {
 		league = append(league, Player{name, wins})

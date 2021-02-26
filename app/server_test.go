@@ -29,7 +29,7 @@ func (s *StubPlayerStore) GetLeague() []Player {
 	return s.league
 }
 
-func TestGetPlayers(t *testing.T) {
+/*func TestGetPlayers(t *testing.T) {
 
 	store := StubPlayerStore{
 		map[string]int{
@@ -64,9 +64,9 @@ func TestGetPlayers(t *testing.T) {
 		server.ServeHTTP(response, request)
 		assertStatus(t, response.Code, http.StatusNotFound)
 	})
-}
+}*/
 
-func TestStoreWins(t *testing.T) {
+/*func TestStoreWins(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{},
 		nil,
@@ -92,9 +92,9 @@ func TestStoreWins(t *testing.T) {
 			t.Errorf("did not store correct winner got %q want %q", store.winCalls[0], player)
 		}
 	})
-}
+}*/
 
-func TestLeague(t *testing.T) {
+/*func TestLeague(t *testing.T) {
 
 	t.Run("it returns the league table as JSON", func(t *testing.T) {
 		wantedLeague := []Player{
@@ -116,7 +116,7 @@ func TestLeague(t *testing.T) {
 		assertLeague(t, got, wantedLeague)
 		assertContentType(t, response, jsonContentType)
 	})
-}
+}*/
 
 func newGetScoreRequest(name string) *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)

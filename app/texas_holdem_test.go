@@ -3,6 +3,7 @@ package poker_test
 import (
 	poker "app"
 	"fmt"
+	"io/ioutil"
 	"testing"
 	"time"
 )
@@ -12,9 +13,9 @@ func TestGame_Start(t *testing.T) {
 	t.Run("schedules alerts on game start for 5 players", func(t *testing.T) {
 		blindAlerter := &poker.SpyBlindAlerter{}
 		dummyPlayerStore := &poker.StubPlayerStore{}
-		game := poker.NewGame(blindAlerter, dummyPlayerStore)
+		game := poker.NewTexasHoldem(blindAlerter, dummyPlayerStore)
 
-		game.Start(5)
+		game.Start(5, ioutil.Discard)
 
 		cases := []poker.ScheduledAlert{
 			{At: 0 * time.Second, Amount: 100},
@@ -36,9 +37,9 @@ func TestGame_Start(t *testing.T) {
 	t.Run("schedules alerts on game start for 7 players", func(t *testing.T) {
 		blindAlerter := &poker.SpyBlindAlerter{}
 		dummyPlayerStore := &poker.StubPlayerStore{}
-		game := poker.NewGame(blindAlerter, dummyPlayerStore)
+		game := poker.NewTexasHoldem(blindAlerter, dummyPlayerStore)
 
-		game.Start(7)
+		game.Start(7, ioutil.Discard)
 
 		cases := []poker.ScheduledAlert{
 			{At: 0 * time.Second, Amount: 100},
@@ -54,7 +55,7 @@ func TestGame_Start(t *testing.T) {
 func TestGame_Finish(t *testing.T) {
 	dummyBlindAlerter := &poker.SpyBlindAlerter{}
 	store := &poker.StubPlayerStore{}
-	game := poker.NewGame(dummyBlindAlerter, store)
+	game := poker.NewTexasHoldem(dummyBlindAlerter, store)
 	winner := "Ruth"
 
 	game.Finish(winner)

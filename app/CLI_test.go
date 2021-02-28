@@ -8,28 +8,6 @@ import (
 	"testing"
 )
 
-var dummyBlindAlerter = &poker.SpyBlindAlerter{}
-var dummyPlayerStore = &poker.StubPlayerStore{}
-var dummyStdIn = &bytes.Buffer{}
-var dummyStdOut = &bytes.Buffer{}
-
-type GameSpy struct {
-	StartCalledWith   int
-	FinischCalledWith string
-	StartCalled       bool
-	FinishCalled      bool
-}
-
-func (g *GameSpy) Start(numberOfPlayers int) {
-	g.StartCalled = true
-	g.StartCalledWith = numberOfPlayers
-}
-
-func (g *GameSpy) Finish(winner string) {
-	g.FinishCalled = true
-	g.FinischCalledWith = winner
-}
-
 func userSends(messages ...string) io.Reader {
 	return strings.NewReader(strings.Join(messages, "\n"))
 }
@@ -37,29 +15,29 @@ func userSends(messages ...string) io.Reader {
 func TestCLI(t *testing.T) {
 
 	t.Run("start game with 3 players and finish the game with 'Chris' as winner", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 		stdout := &bytes.Buffer{}
 		in := userSends("3", "Chris wins")
 		cli := poker.NewCLI(in, stdout, game)
 		cli.PlayPoker()
 
 		assertMessageSentToUser(t, stdout, poker.PlayerPrompt)
-		assertGameStartedWith(t, game, 3)
-		assertFinishCalledWith(t, game, "Chris")
+		poker.AssertGameStartedWith(t, game, 3)
+		poker.AssertFinishCalledWith(t, game, "Chris")
 	})
 
 	t.Run("start game with 8 players and record 'Cleo' as winner", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 		in := userSends("8", "Cleo wins")
-		cli := poker.NewCLI(in, dummyStdOut, game)
+		cli := poker.NewCLI(in, poker.DummyStdOut, game)
 		cli.PlayPoker()
 
-		assertGameStartedWith(t, game, 8)
-		assertFinishCalledWith(t, game, "Cleo")
+		poker.AssertGameStartedWith(t, game, 8)
+		poker.AssertFinishCalledWith(t, game, "Cleo")
 	})
 
 	t.Run("it prints an error when a non numeric value is entered and does not start the game", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 		stdout := &bytes.Buffer{}
 		in := userSends("pies")
 		cli := poker.NewCLI(in, stdout, game)
@@ -70,7 +48,7 @@ func TestCLI(t *testing.T) {
 	})
 
 	t.Run("it prints an error when the winner is declared incorrectly", func(t *testing.T) {
-		game := &GameSpy{}
+		game := &poker.GameSpy{}
 		stdout := &bytes.Buffer{}
 		in := userSends("8", "Lloyd is a killer")
 		cli := poker.NewCLI(in, stdout, game)
@@ -81,31 +59,17 @@ func TestCLI(t *testing.T) {
 	})
 }
 
-func assertGameStartedWith(t testing.TB, game *GameSpy, numberOfPlayersWanted int) {
-	t.Helper()
-	if game.StartCalledWith != numberOfPlayersWanted {
-		t.Errorf("wanted Start called with %d but got %d", numberOfPlayersWanted, game.StartCalledWith)
-	}
-}
-
-func assertGameNotFinished(t testing.TB, game *GameSpy) {
+func assertGameNotFinished(t testing.TB, game *poker.GameSpy) {
 	t.Helper()
 	if game.FinishCalled {
 		t.Errorf("game should not have finished")
 	}
 }
 
-func assertGameNotStarted(t testing.TB, game *GameSpy) {
+func assertGameNotStarted(t testing.TB, game *poker.GameSpy) {
 	t.Helper()
 	if game.StartCalled {
 		t.Errorf("game should not have started")
-	}
-}
-
-func assertFinishCalledWith(t testing.TB, game *GameSpy, winner string) {
-	t.Helper()
-	if game.FinischCalledWith != winner {
-		t.Errorf("expected finish called with %q but got %q", winner, game.FinischCalledWith)
 	}
 }
 
